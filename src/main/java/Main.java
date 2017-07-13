@@ -7,14 +7,13 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample2.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("RedmineApp");
         primaryStage.setScene(new Scene(root, 500, 550));
         primaryStage.setResizable(true);
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);

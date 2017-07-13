@@ -2,6 +2,7 @@ import com.taskadapter.redmineapi.RedmineException;
 import com.taskadapter.redmineapi.RedmineManager;
 import com.taskadapter.redmineapi.RedmineManagerFactory;
 import com.taskadapter.redmineapi.bean.Issue;
+import com.taskadapter.redmineapi.bean.Project;
 
 import javax.naming.ldap.Rdn;
 import java.util.List;
@@ -23,15 +24,22 @@ public class RedmineApi {
         mgr = RedmineManagerFactory.createWithUserAuth(uri, login, password);
     }
 
-    public List<Issue> getIssues(String projectKey) {
+    public List<Issue> getIssues(String projectKey) throws RedmineException {
         List<Issue> issues = null;
+        issues = mgr.getIssueManager().getIssues(projectKey, queryId);
+
+        return issues;
+    }
+
+    public List<Project> getProjects() {
+        List<Project> projects = null;
         try {
-            issues = mgr.getIssueManager().getIssues(projectKey, queryId);
+            projects = mgr.getProjectManager().getProjects();
         } catch (RedmineException e) {
             e.printStackTrace();
         }
 
-       return issues;
+        return projects;
     }
 
 }

@@ -1,35 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="Controller" gridLinesVisible="false">
 
-    <Text text="Redmine API" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" />
-    <Label text="URI" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="uriField"/>
-    <Label text="Login" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-    <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="loginField" />
-    <Label text="Password" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-    <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="passField"/>
-
-    <HBox spacing="10" alignment="bottom_right"
-          GridPane.columnIndex="1" GridPane.rowIndex="4">
-        <Button text="Sign In"
-                onAction="#handleSubmitButtonAction"/>
-    </HBox>
-
-    <TextArea fx:id="textArea"
-          GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-
-</GridPane>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+    <top>
+        <GridPane hgap="10.0" vgap="10.0" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="5.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="175.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="5.0" />
+            </columnConstraints>
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="RedmineApi" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                <Label text="URI" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label text="Login" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label text="Password" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <TextField fx:id="uriField" onAction="#onAction" onInputMethodTextChanged="#onInputMethodTextChanged" onKeyTyped="#onKeyTyped" promptText="http://" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <TextField fx:id="loginField" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <PasswordField fx:id="passwordField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <Button fx:id="singButton" alignment="CENTER" mnemonicParsing="false" onAction="#singButtonAction" text="Sing In" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                    <GridPane.margin>
+                        <Insets right="20.0" />
+                    </GridPane.margin>
+                </Button>
+            </children>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+        </GridPane>
+    </top>
+    <center>
+        <TextArea fx:id="textArea" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </BorderPane.margin>
+        </TextArea>
+    </center>
+</BorderPane>

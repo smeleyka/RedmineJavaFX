@@ -4,7 +4,6 @@ import com.taskadapter.redmineapi.RedmineManagerFactory;
 import com.taskadapter.redmineapi.bean.Issue;
 import com.taskadapter.redmineapi.bean.Project;
 
-import javax.naming.ldap.Rdn;
 import java.util.List;
 
 /**

@@ -64,11 +64,5 @@ public class Controller {
             uriField.setText("http://"+text);
             uriField.end();
         }
-       // else uriField.clear();
-//        if (text.length() > 7) {
-//             //if (text.matches("http://.*")) System.out.println("ОК");
-//
-//        }
-
     }
 }

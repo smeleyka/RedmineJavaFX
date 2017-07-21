@@ -6,6 +6,8 @@ import com.taskadapter.redmineapi.bean.Issue;
 import com.taskadapter.redmineapi.bean.Journal;
 import com.taskadapter.redmineapi.bean.Project;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
@@ -14,9 +16,10 @@ import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import sun.font.CompositeGlyphMapper;
 
+import java.net.URL;
 import java.util.*;
 
-public class Controller {
+public class Controller implements Initializable{
 
     public TextField uriField;
     public TextField loginField;
@@ -24,13 +27,14 @@ public class Controller {
     public String projectKey = "zayavki";
     public TextArea textArea;
     public PasswordField passwordField;
+    public BarChart barChart;
 
     public void singButtonAction(ActionEvent actionEvent) {
         List<Project> projects = null;
         List<Issue> issues = null;
-        List<Issue> issuesWithJournal=new ArrayList<Issue>();
+        List<Issue> issuesWithJournal = new ArrayList<Issue>();
         List<Journal> journal = null;
-        HashMap<Integer,Journal> issueHash;
+        HashMap<Integer, Journal> issueHash;
         int issueCount;
         int[] idArr;
 
@@ -42,36 +46,44 @@ public class Controller {
 
         try {
             // создаем ArrayList из заявок
-            issues = redmineInstance.getIssues(projectKey);
+            //issues = redmineInstance.getIssues(projectKey);
+
+//&set_filter=1&f[]=status_id&op[status_id]=c&f[]=created_on&op[created_on]=%3E%3C&v[created_on][]=2017-07-01&v[created_on][]=2017-07-16
+            Map<String,String> params = new HashMap<>();
+                 params.put("set_filter", "1");
+                 params.put("f[]", "status_id");
+                 params.put("op[status_id]", "c");
+
+            issues = issueMgr.getIssues(params);
+
             projects = redmineInstance.getProjects();
 
-            System.out.println(issueMgr.);
+
+            //  создаем ArrayList из заявок c журналом
+            int issueId = 0;
+            System.out.println(issues.size());
+            for (int i = 0; i < issues.size(); i++) {
+                issueId = issues.get(i).getId();
+                issuesWithJournal.add(issueMgr.getIssueById(issueId, Include.journals));
+            }
+            Date dateOpen = new Date();
+            Date dateClose = new Date();
+                        // обрабатываем массив заявок с журналом
+        for (Issue issuej : issuesWithJournal){
+            System.out.print (issuej.getId()+"--OPENED--");
+            System.out.print (issuej.getCreatedOn()+"");
 
 
-        //  создаем ArrayList из заявок c журналом
-            int i = 0;
-//            System.out.println(issues.size());
-//            System.out.println(issues.toString());
+            textArea.appendText (issuej.getId()+"--OPENED--");
+            textArea.appendText (issuej.getCreatedOn()+"");
+            if (issuej.getJournals().iterator().hasNext()){
+                System.out.print("--FIRST ANSWER--"+issuej.getJournals().iterator().next().getCreatedOn());
+                textArea.appendText ("--FIRST ANSWER--"+issuej.getJournals().iterator().next().getCreatedOn());
+            }
+            System.out.println();
+            textArea.appendText ("\n");
 
-//            for (int j = 0; j < issues.size(); j++)   {
-//                System.out.println(issues.get(j));
-//
-////               Issue issue = issues.iterator().next();
-////               int i = issue.getId();
-////                issuesWithJournal.add(issueMgr.getIssueById(i , Include.journals));
-////               System.out.println(issuesWithJournal.size());
-////               //Issue issue = issues.iterator().next();
-////               System.out.println(i++);
-//            }
-
-
-//        for (Issue issuej : issuesWithJournal){
-//            if (issuej.getJournals().iterator().hasNext()){
-//                System.out.println(issuej.getJournals().iterator().next().getCreatedOn());
-//            }
-//
-//        }
-
+        }
 
 
         } catch (RedmineException e) {
@@ -81,27 +93,32 @@ public class Controller {
 
 
 
-        //
-       // Object[] journalArr = issue.getJournals().toArray();
-       // System.out.println(((Journal) journalArr[0]).getId() + " " + ((Journal) journalArr[0]).getNotes() + " " + ((Journal) journalArr[0]).getCreatedOn());
 
 
-        //textArea.appendText(issue.getJournals().);
 
 
-//        for (Project project : projects) {
-//            textArea.appendText(project.toString() + "\n");
-//        }
-//
-//        for (Issue issue : issues) {
-//            //textArea.appendText(issue.toString() + "\n");
-//            //textArea.appendText(issue.getId() +" "+ issue.getCreatedOn().toString()+ " " +issue.getUpdatedOn().toString() +"######"+ issue.getChangesets().size()+"\n");
-//            if (issue.getId()==11849) {
-//                journal = (List<Journal>)issue.getJournals();
-//
-//                textArea.appendText(issue.getSubject()+"----"+journal.size()+ "------"+issue.getChangesets().size());
-//            }
-//        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     public void showAllert(String info) {
@@ -123,5 +140,10 @@ public class Controller {
             uriField.setText("http://" + text);
             uriField.end();
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
     }
 }
